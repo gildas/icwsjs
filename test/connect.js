@@ -17,17 +17,6 @@ describe('Session', function() {
   beforeEach(function() { icws.disconnect(); });
 
   describe('#connect', function() {
-    it('should connect with valid credentials', function() {
-      //var promise = icws.connect(config.uri, config.users.default.user, config.users.default.password);
-      //return expect(promise).to.eventually.have.property('id');
-      return icws.connect(config.uri, config.users.default.user, config.users.default.password)
-      .then(function(data){
-        expect(data).to.have.property('id');
-        expect(data.id).to.be.ok();
-      });
-    });
-
-    // pending tests...
     it('should not connect with wrong protocol', function() {
       return expect(icws.connect('tcp://cic.acme.org', 'agent', '1234')).to.be.rejectedWith('com.inin.icws.error.url.invalid_protocol(tcp:)');
     });
@@ -37,23 +26,35 @@ describe('Session', function() {
     });
 
     it('should not connect with empty user', function() {
-      return expect(icws.connect('https://cic.acme.org:8019')).to.be.rejectedWith('com.inin.icws.error.connect.empty_user');
+      return expect(icws.connect(config.url)).to.be.rejectedWith('com.inin.icws.error.connect.empty_user');
     });
 
     it('should not connect with empty password', function() {
-      return expect(icws.connect('https://cic.acme.org:8019', 'agent')).to.be.rejectedWith('com.inin.icws.error.connect.empty_password');
+      return expect(icws.connect(config.url, 'agent')).to.be.rejectedWith('com.inin.icws.error.connect.empty_password');
     });
 
     it('should not connect with wrong password', function() {
+      //return expect(icws.connect(config.url, config.users.default.user, config.users.default.password + 'wrong')).to.be.rejectedWith('com.inin.icws.error.connect.invalid_password');
     });
 
     it('should not connect with invalid user', function() {
+      //return expect(icws.connect(config.url, config.users.default.user + 'notexist', config.users.default.password)).to.be.rejectedWith('com.inin.icws.error.connect.invalid_user');
     });
 
+    // pending tests...
     it('should not connect with expired password', function() {
     });
 
     it('should not connect with unlicensed user', function() {
+    });
+    // end of pending tests...
+
+    it('should connect with valid credentials', function() {
+      return icws.connect(config.url, config.users.default.user, config.users.default.password)
+      .then(function(data){
+        expect(data).to.have.property('id');
+        expect(data.id).to.be.ok();
+      });
     });
   });
 });
