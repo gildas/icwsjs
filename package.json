@@ -6,7 +6,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --compilers js:mocha-traceur"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,12 @@
     "url": "https://github.com/gildas/icwsjs/issues"
   },
   "homepage": "https://github.com/gildas/icwsjs#readme",
+  "dependencies": {
+    "traceur": "0.0.111"
+  },
   "devDependencies": {
+    "chai": "3.5.0",
+    "chai-as-promised": "5.3.0",
     "mocha": "3.0.2",
     "mocha-traceur": "2.1.0"
   }

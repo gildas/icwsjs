@@ -4,7 +4,8 @@
     "http",
     "https",
     "url",
-    "assert",
+    "chai",
+    "chai-as-promised",
     "mocha"
   ],
   "plugins": {
