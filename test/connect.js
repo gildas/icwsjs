@@ -5,10 +5,14 @@ chai.use(chai_promise);
 var assert       = chai.assert;
 var expect       = chai.expect;
 
-var fs     = require('fs');
 import * as ICWS from '../lib/icws.js';
 
-var config = JSON.parse(fs.readFileSync('test/config.json', 'utf8'));
+const config = {
+  url: "https://localhost:8019",
+  users: {
+    default: { user: "agent", password: "1234" }
+  }
+};
 
 
 describe('Session', function() {
