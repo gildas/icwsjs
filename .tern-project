@@ -1,0 +1,12 @@
+{
+  "libs": [
+    "fs",
+    "http",
+    "https",
+    "url",
+    "assert",
+    "mocha"
+  ],
+  "plugins": {
+  }
+}
