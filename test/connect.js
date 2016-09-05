@@ -56,8 +56,12 @@ describe('Session', function() {
     it('should connect with valid credentials', function() {
       return icws.connect(config.url, config.users.default.user, config.users.default.password)
       .then(function(data){
-        expect(data).to.have.property('id');
-        expect(data.id).to.be.ok();
+        expect(data).to.have.property('id').to.be.ok;
+        expect(data).to.have.property('token').to.be.ok;
+        expect(data).to.have.property('cookie').to.be.ok;
+        expect(data).to.have.property('ic_server').to.be.ok;
+        expect(data).to.have.property('alternates').to.be.ok;
+        expect(data).to.have.property('user_id').to.be.ok;
       });
     });
   });
