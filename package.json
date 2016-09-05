@@ -1,0 +1,26 @@
+{
+  "name": "icwsjs",
+  "version": "0.0.1",
+  "description": "Communicate with Interaction Center® servers via the ICWS API",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/gildas/icwsjs.git"
+  },
+  "keywords": [
+    "ICWS",
+    "CIC",
+    "Interaction Center",
+    "Interactive Intelligence"
+  ],
+  "author": "Gildas Cherruel",
+  "bugs": {
+    "url": "https://github.com/gildas/icwsjs/issues"
+  },
+  "homepage": "https://github.com/gildas/icwsjs#readme"
+}
