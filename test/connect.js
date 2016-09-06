@@ -10,10 +10,11 @@ import * as ICWS from '../lib/icws.js';
 const config = {
   url: "https://localhost:8019",
   users: {
-    default: { user: "agent", password: "1234" }
+    default:    { user: 'agent',        password: '1234' },
+    no_license: { user: 'agent_nolic',  password: '1234' }.
+    no_locked:  { user: 'agent_locked', password: '1234' }.
   }
 };
-
 
 describe('Session', function() {
   var icws = new ICWS.Session();
