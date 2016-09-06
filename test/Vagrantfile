@@ -11,17 +11,11 @@ end
 Dir.mkdir $tmp_root unless Dir.exist? $tmp_root
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "cic"
-  #config.vm.box = "daas/cic"
-  config.vm.box_check_update = false
-
-  config.vm.hostname          = 'cic-icws'
-  config.vm.guest             = :windows
-  config.windows.halt_timeout = 15
-  config.vm.communicator      = :winrm
+  config.vm.box      = "daas/cic"
+  config.vm.hostname = 'cic-icws'
+  config.vm.guest    = :windows
 
   config.vm.network "private_network", ip: "192.168.33.10"
-  #config.vm.network "public_network", bridge: 'en1'
   config.vm.network :forwarded_port, guest: 5985, host: 5985, id: 'winrm', auto_correct: true
   config.vm.network :forwarded_port, guest: 3389, host: 3389, id: 'rdp',   auto_correct: true
   config.vm.network :forwarded_port, guest: 8018, host: 8018, id: 'icws', auto_correct: false
@@ -52,9 +46,15 @@ Vagrant.configure(2) do |config|
     config.vm.provision 'Checking Savon', type: :host_shell, inline: "gem which savon"
     config.vm.provision 'Fetching CIC version', type: :shell,  inline: 'Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* | Where DisplayName -match "Interaction Center Server.*" | Select @{Name="Version"; Expression={"{0}.{1}" -f $_.VersionMajor,$_.VersionMinor}} | Select -ExpandProperty Version | Set-Content -Path C:/vagrant-data/version.txt -Encoding Ascii'
     config.vm.provision "Computing HostID", type: :shell, inline: '& "C:\Program Files (x86)\Interactive Intelligence\GetHostID\GetHostID_CLU.exe" | Select-String -Pattern "\s+([0-9A-F]+)$" -List | ForEach-Object { $_.matches[0].Groups[1].Value } | Set-Content -Path C:\vagrant-data\hostid.txt -Encoding Ascii'
-    config.vm.provision 'Requesting license', type: :host_shell do |host_shell|
-      host_shell.abort_on_nonzero = true
-      host_shell.inline = "ruby #{$tmp_root}/get-iclicense.rb --hostid @#{$tmp_root}/hostid.txt --hostname #{config.vm.hostname} --version @#{$tmp_root}/version.txt --output #{$tmp_root}/cic-license.i3lic --verbose"
+    config.vm.provision 'Requesting license', type: :host_shell do |shell|
+      shell.abort_on_nonzero = true
+      shell_args   = {
+        hostid:   "@#{$tmp_root}/hostid.txt",
+        hostname: config.vm.hostname,
+        version:  "@#{$tmp_root}/version.txt",
+        output:   "#{$tmp_root}/cic-license.i3lic",
+      }
+      shell.inline = "ruby #{$tmp_root}/get-iclicense.rb --verbose " + shell_args.map {|k,v| "--#{k} \"#{v}\" "}.join
     end
   end
 end
